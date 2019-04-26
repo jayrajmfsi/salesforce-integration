@@ -7,5 +7,6 @@ return array(
     'clientSecret' => '18661D12D49FA7C66B8D407574D454CE911641FF797F47D54097464A01A8610F',
     'redirectUri' => 'http://localhost:80/salesforce-demo/callback.php',
     'grantType' => 'authorization_code',
-    'customerUrl' => '/services/data/v45.0/sobjects/Account'
+    'customerUrl' => '/services/data/v45.0/sobjects/Account',
+    'sampleAccountId' => '/0010K000021GoTzQAK'
 );
