@@ -1,0 +1,6 @@
+/vendor/
+.idea/*
+/.sonar/
+sonar-project.properties
+.scannerwork/
+resources/config/config.php
