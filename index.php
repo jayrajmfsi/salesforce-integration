@@ -1,26 +1,40 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+/**
+ * Index file for showing the login button
+ * @author Jayraj Arora<jayraja@mindfiresolutions.com>
+ */
+
 use SalesForce\ApiCaller\ApiCaller;
 
 require_once(__DIR__ . '/vendor/autoload.php');
-$config = require_once 'config.php';
 
-if (isset($_POST['login'])) {
-    $apiCaller = new ApiCaller($config['authorizationRequestUrl']);
-    $requestData = [
-        'response_type' => 'code',
-        'client_id' => $config['client_id'],
-        'redirect_uri' => $config['redirect_uri']
-    ];
-    $apiCaller->execute('GET', $requestData);
+try {
+    // fetch config
+    $config = require_once 'app/config/config.php';
 
-    $authorizationRequestUrl = $config['authorizationRequestUrl'];
-    $authorizationRequestUrl .= '?' . http_build_query($requestData, null, '&', PHP_QUERY_RFC1738);
+    // if login button is clicked perform an api call for salesforce authentication
+    if (isset($_POST['login'])) {
+        $apiCaller = new ApiCaller($config['authorizationRequestUrl']);
 
-    header('Location: '. $authorizationRequestUrl);
+        $requestData = [
+            'response_type' => 'code',
+            'client_id' => $config['clientId'],
+            'redirect_uri' => $config['redirectUri']
+        ];
+        // call the api
+        $apiCaller->execute('GET', $requestData);
+
+        $authorizationRequestUrl = $config['authorizationRequestUrl'];
+        // create the authorization request url along with query parameters
+        $authorizationRequestUrl .= '?' . http_build_query($requestData, null, '&', PHP_QUERY_RFC1738);
+
+        // redirect to the authorization url
+        header('Location: ' . $authorizationRequestUrl);
+
+    }
+} catch (Exception $exception) {
+    print_r('Exception occurred due to: '. $exception->getMessage());
 }
-
 ?>
 
 <html>
