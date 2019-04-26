@@ -3,4 +3,6 @@
 /.sonar/
 sonar-project.properties
 .scannerwork/
-resources/config/config.php
+app/config/config.php
+app/logs/api.log
+app/logs/exception.log
