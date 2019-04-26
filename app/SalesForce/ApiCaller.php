@@ -38,8 +38,8 @@ class ApiCaller
             ]
         );
         $this->logger = new Logger('api');
-        $this->logger->pushHandler(new StreamHandler(__DIR__ . '../logs/api.log', Logger::DEBUG));
-        $this->logger->pushHandler(new StreamHandler(__DIR__ . '../logs/exception.log', Logger::DEBUG));
+        $this->logger->pushHandler(new StreamHandler(__DIR__ . '/../logs/api.log', Logger::DEBUG));
+        $this->logger->pushHandler(new StreamHandler(__DIR__ . '/../logs/exception.log', Logger::DEBUG));
 
     }
 
