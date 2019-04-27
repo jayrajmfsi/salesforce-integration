@@ -5,7 +5,7 @@
  */
 use SalesForce\ApiCaller\ApiCaller;
 use SalesForce\Constants\GeneralConstants;
-require_once 'start.php';
+require_once __DIR__. '/../../../start.php';
 
 // prepare request and headers
 $requestData = [

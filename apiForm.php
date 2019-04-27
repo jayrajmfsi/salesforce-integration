@@ -4,6 +4,7 @@
  * @author Jayraj Arora<jayraja@mindfiresolutions.com>
  */
 // list of options against the apis
+
 $apiList = [
     'list_recent_accounts'=> 'listRecentAccounts.php',
     'add_account' => 'addAccount.php',
@@ -14,9 +15,10 @@ $apiList = [
 
 if ($_POST['call_api']) {
     $callApi = $apiList[$_POST['api_name']];
+    // redirect to the respective script
+    header('Location: '. 'src/SalesForce/API/'.$callApi);
 }
-// redirect to the respective script
-header('Location: '.$callApi);
+
 ?>
 
 

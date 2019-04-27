@@ -39,7 +39,7 @@ class ApiCaller
             ]
         );
         $this->logger = new Logger('api');
-        $streamHandler = new StreamHandler(__DIR__ . '/../logs/api.log', Logger::DEBUG);
+        $streamHandler = new StreamHandler(__DIR__ . '/../../app/logs/api.log', Logger::DEBUG);
         $this->logger->pushHandler($streamHandler->setFormatter(new JsonFormatter()));
     }
 
@@ -105,7 +105,7 @@ class ApiCaller
 
         } catch (\Exception $exception) {
             $this->logger = new Logger('exception');
-            $this->logger->pushHandler(new StreamHandler(__DIR__ . '/../logs/exception.log', Logger::DEBUG));
+            $this->logger->pushHandler(new StreamHandler(__DIR__ . '/../../app/logs/exception.log', Logger::DEBUG));
             $this->logger->debug('Exception: '. $exception->getMessage());
         }
 
