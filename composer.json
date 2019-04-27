@@ -9,7 +9,7 @@
 		}
 	},
     "scripts": {
-      "post-create-project-cmd" : [
+      "post-install-cmd": [
         "sudo chmod -R 777 app/logs/"
       ]
     }
