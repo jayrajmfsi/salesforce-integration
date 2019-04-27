@@ -9,7 +9,7 @@
 		}
 	},
     "scripts": {
-      "post-install-cmd": [
+      "pre-autoload-dump": [
         "sudo chmod -R 777 app/logs/"
       ]
     }
