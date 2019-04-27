@@ -8,6 +8,7 @@ namespace SalesForce\ApiCaller;
 
 use GuzzleHttp\Client as Client;
 use GuzzleHttp\TransferStats;
+use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
@@ -38,9 +39,8 @@ class ApiCaller
             ]
         );
         $this->logger = new Logger('api');
-        $this->logger->pushHandler(new StreamHandler(__DIR__ . '/../logs/api.log', Logger::DEBUG));
-        $this->logger->pushHandler(new StreamHandler(__DIR__ . '/../logs/exception.log', Logger::DEBUG));
-
+        $streamHandler = new StreamHandler(__DIR__ . '/../logs/api.log', Logger::DEBUG);
+        $this->logger->pushHandler($streamHandler->setFormatter(new JsonFormatter()));
     }
 
     /**
@@ -51,13 +51,13 @@ class ApiCaller
      * @return mixed|\Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function execute($method, $requestData, $headers = null)
+    public function execute($method, $requestData = null , $headers = null)
     {
         if ($method == 'POST' && $headers['Content-Type'] == 'application/x-www-form-urlencoded') {
             $dataFormat = 'form_params';
         } else if (($method == 'PATCH' || $method == 'POST') && $headers['Content-Type'] == 'application/json') {
             $dataFormat = 'json';
-        } else {
+        } elseif (!empty($requestData)) {
             $dataFormat = 'query';
         }
 
@@ -65,30 +65,31 @@ class ApiCaller
             'status' => false
         ];
 
-        try {
-            $response = $this->client->request(
-                $method,
-                null,
-                array(
-                    $dataFormat => $requestData,
-                    'headers' => $headers,
-                    'on_stats' => function (TransferStats $stats) {
-                        // log the statitics of the api call
-                        $code = null;
-                        if ($stats->hasResponse()) {
-                            $code = $stats->getResponse()->getStatusCode();
-                        }
-                        $requestDetails = array(
-                            'uri' => $stats->getEffectiveUri(),
-                            'transferTime' => $stats->getTransferTime(),
-                            'stats' => $stats->getHandlerStats(),
-                            'code' => $code,
-                            'request' => (array)$stats->getRequest(),
-                        );
-                        $this->logger->debug('API Request: ', $requestDetails);
-                    }
-                )
+        $dataOptions['on_stats'] = function (TransferStats $stats) {
+            // log the statistics of the api call
+            $code = null;
+            if ($stats->hasResponse()) {
+                $code = $stats->getResponse()->getStatusCode();
+            }
+            $requestDetails = array(
+                'uri' => $stats->getEffectiveUri(),
+                'transferTime' => $stats->getTransferTime(),
+                'stats' => $stats->getHandlerStats(),
+                'code' => $code,
+                'request' => (array)$stats->getRequest(),
             );
+            $this->logger->debug('API Request: ', $requestDetails);
+        };
+        if (isset($dataFormat)) {
+            $dataOptions[$dataFormat] = $requestData;
+        }
+        if (!empty($headers)) {
+            $dataOptions['headers'] = $headers;
+        }
+
+        try {
+            // call the api
+            $response = $this->client->request($method, null, $dataOptions);
 
             $statusCode = $response->getStatusCode();
 
@@ -99,10 +100,12 @@ class ApiCaller
             } else {
                 $response['code'] = $statusCode;
             }
-            if (is_array($response)) {
-                $this->logger->debug('API Response: ', $response);
-            }
+
+            $this->logger->debug('API Response: ', (array)$response);
+
         } catch (\Exception $exception) {
+            $this->logger = new Logger('exception');
+            $this->logger->pushHandler(new StreamHandler(__DIR__ . '/../logs/exception.log', Logger::DEBUG));
             $this->logger->debug('Exception: '. $exception->getMessage());
         }
 

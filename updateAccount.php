@@ -3,14 +3,14 @@
  * Calling an update customer api
  * @author Jayraj Arora<jayraja@mindfiresolutions.com>
  */
-require_once(__DIR__ . '/vendor/autoload.php');
-
 use SalesForce\ApiCaller\ApiCaller;
+
+require_once 'start.php';
 
 session_start();
 
 $requestData = [
-    'name' => 'AccountUsingGuzzle1'
+    'name' => 'AccountUsingGuzzleTest'
 ];
 // prepare request data
 $accessToken = $_SESSION['accessToken'];
@@ -19,8 +19,8 @@ $headerData = [
     'Authorization' => "OAuth $accessToken"
 ];
 
-$apiCaller = new ApiCaller($_SESSION['instanceUrl']. $config['customerUrl']. $config['sampleAccountId']);
-// call the update api
+$apiCaller = new ApiCaller($_SESSION['instanceUrl']. $config['accountUrl']. $config['sampleAccountId']);
+// call the account update api
 $response = $apiCaller->execute('PATCH', $requestData, $headerData);
 
 if (204 === $response['code']) {

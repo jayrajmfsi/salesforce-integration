@@ -3,12 +3,11 @@
  * Api form for containing the salesforce actions to perform
  * @author Jayraj Arora<jayraja@mindfiresolutions.com>
  */
-session_start();
 // list of options against the apis
 $apiList = [
-    'listCustomer'=> 'getCustomers.php',
-    'addCustomer' => 'addCustomer.php',
-    'updateCustomer' => 'updateCustomer.php',
+    'list_recent_accounts'=> 'listRecentAccounts.php',
+    'add_account' => 'addAccount.php',
+    'update_account' => 'updateAccount.php',
 ];
 
 if ($_POST['call_api']) {
@@ -20,11 +19,12 @@ header('Location: '.$callApi);
 
 
 <html>
-<body>
-<form method="post" action="apiForm.php">
-    <input type="radio" value="addCustomer" name="api_name">Add Customer
-    <input type="radio" value="updateCustomer" name="api_name">Update Customer
-    <input type="submit" name="call_api" value="Execute">
-</form>
-</body>
+  <body>
+    <form method="post" action="apiForm.php">
+      <input type="radio" value="add_account" name="api_name">Add Account
+      <input type="radio" value="update_account" name="api_name">Update Account
+      <input type="radio" value="list_recent_accounts" name="api_name">List Recent Accounts
+      <input type="submit" name="call_api" value="Execute">
+    </form>
+  </body>
 </html>

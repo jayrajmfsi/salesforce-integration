@@ -11,6 +11,6 @@ return array(
     'clientSecret' => 'Account Client Secret',
     'redirectUri' => 'Callback URL',
     'grantType' => 'Should be authorization code',
-    'customerUrl' => 'Account api url',
+    'accountUrl' => 'Account api url',
     'sampleCustomerId' => 'Customer Id '
 );
