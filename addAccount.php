@@ -21,7 +21,7 @@ $baseUrl = $_SESSION['instanceUrl']. $config['accountUrl'];
 
 $apiCaller = new ApiCaller($baseUrl);
 // call the account add api
-$response = $apiCaller->execute('POST', $requestData, $headerData);
+$response = $apiCaller->execute(GeneralConstants::HTTP_REQUEST_METHOD['post'], $requestData, $headerData);
 
 print_r($response);
 

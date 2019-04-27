@@ -17,7 +17,7 @@ $headerData = [
 $apiCaller = new ApiCaller($_SESSION['instanceUrl']. $config['accountUrl']);
 
 // call the accounts list api
-$response = $apiCaller->execute('GET', null, $headerData);
+$response = $apiCaller->execute(GeneralConstants::HTTP_REQUEST_METHOD['get'], null, $headerData);
 
 $accountList = $response['recentItems'];
 

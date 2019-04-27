@@ -1,6 +1,6 @@
 <?php
 /**
- * Calling an update account api
+ * Calling a delete account api
  * @author Jayraj Arora<jayraja@mindfiresolutions.com>
  */
 use SalesForce\ApiCaller\ApiCaller;
@@ -10,22 +10,18 @@ require_once 'start.php';
 
 session_start();
 
-$requestData = [
-    'name' => 'AccountUsingGuzzleTest'
-];
 // prepare headers
 $headerData = [
-    'Content-Type' => GeneralConstants::JSON_CONTENT_TYPE,
     'Authorization' => GeneralConstants::HEADER_AUTHORIZATION_TYPE. ' '. $_SESSION['accessToken']
 ];
 
-$baseUrl = $_SESSION['instanceUrl']. $config['accountUrl']. '/'. $config['sampleAccountId'];
+$baseUrl = $_SESSION['instanceUrl']. $config['accountUrl']. '/'. $config['deleteAccountId'];
 $apiCaller = new ApiCaller($baseUrl);
 // call the account update api
-$response = $apiCaller->execute(GeneralConstants::HTTP_REQUEST_METHOD['patch'], $requestData, $headerData);
+$response = $apiCaller->execute(GeneralConstants::HTTP_REQUEST_METHOD['delete'], null, $headerData);
 
 if (204 === $response['code']) {
-    echo 'Updated Successfully';
+    echo 'Deleted Successfully';
 } else {
     print_r($response);
 }

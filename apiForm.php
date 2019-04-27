@@ -8,6 +8,8 @@ $apiList = [
     'list_recent_accounts'=> 'listRecentAccounts.php',
     'add_account' => 'addAccount.php',
     'update_account' => 'updateAccount.php',
+    'query_accounts' => 'queryAccounts.php',
+    'delete_account' => 'deleteAccount.php',
 ];
 
 if ($_POST['call_api']) {
@@ -24,6 +26,8 @@ header('Location: '.$callApi);
       <input type="radio" value="add_account" name="api_name">Add Account
       <input type="radio" value="update_account" name="api_name">Update Account
       <input type="radio" value="list_recent_accounts" name="api_name">List Recent Accounts
+      <input type="radio" value="query_accounts" name="api_name">Query list of accounts
+      <input type="radio" value="delete_account" name="api_name">Delete Account
       <input type="submit" name="call_api" value="Execute">
     </form>
   </body>

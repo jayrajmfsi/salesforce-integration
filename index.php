@@ -26,7 +26,7 @@ try {
         $apiCaller = new ApiCaller($authorizationRequestUrl);
 
         // call the api for authentication
-        $apiCaller->execute('GET');
+        $apiCaller->execute(GeneralConstants::HTTP_REQUEST_METHOD['get']);
 
         // redirect to the authorization url
         header('Location: ' . $authorizationRequestUrl);
