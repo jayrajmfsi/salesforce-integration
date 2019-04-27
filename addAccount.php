@@ -4,25 +4,25 @@
  * @author Jayraj Arora<jayraja@mindfiresolutions.com>
  */
 use SalesForce\ApiCaller\ApiCaller;
-
+use SalesForce\Constants\GeneralConstants;
 require_once 'start.php';
 
+// prepare request and headers
 $requestData = [
     'name' => 'Predestination'
 ];
-
-// fetch the previously set access token
-$accessToken = $_SESSION['accessToken'];
-
-// prepare request and headers
+// fetch the previous set access token
 $headerData = [
-    'Content-Type' => 'application/json',
-    'Authorization' => "OAuth $accessToken"
+    'Content-Type' => GeneralConstants::JSON_CONTENT_TYPE,
+    'Authorization' => GeneralConstants::HEADER_AUTHORIZATION_TYPE. ' '. $_SESSION['accessToken']
 ];
 
-$apiCaller = new ApiCaller($_SESSION['instanceUrl']. $config['accountUrl']);
+$baseUrl = $_SESSION['instanceUrl']. $config['accountUrl'];
+
+$apiCaller = new ApiCaller($baseUrl);
 // call the account add api
 $response = $apiCaller->execute('POST', $requestData, $headerData);
 
 print_r($response);
+
 ?>

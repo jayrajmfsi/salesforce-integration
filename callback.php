@@ -4,6 +4,7 @@
  * @author Jayraj Arora<jayraja@mindfiresolutions.com>
  */
 use SalesForce\ApiCaller\ApiCaller;
+use SalesForce\Constants\GeneralConstants;
 
 require_once 'start.php';
 
@@ -18,17 +19,17 @@ try {
     $code = $qsArray['code'];
     // prepare request data
     $requestData = array(
-        'grant_type' => $config['grantType'],
+        'grant_type' => GeneralConstants::GRANT_TYPE,
         'code' => $code,
         'client_id' => $config['clientId'],
         'client_secret' => $config['clientSecret'],
         'redirect_uri' => $config['redirectUri']
     );
     $headerData = [
-        'Content-Type' => 'application/x-www-form-urlencoded'
+        'Content-Type' => GeneralConstants::URL_ENCODED_CONTENT_TYPE
     ];
     // call the token api
-    $apiCaller = new ApiCaller($config['tokenEndPointUrl']);
+    $apiCaller = new ApiCaller(GeneralConstants::ACCESS_TOKEN_URL);
 
     $response = $apiCaller->execute('POST', $requestData, $headerData);
 

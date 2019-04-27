@@ -5,15 +5,13 @@
  */
 
 use SalesForce\ApiCaller\ApiCaller;
+use SalesForce\Constants\GeneralConstants;
 
 require_once 'start.php';
 
-// fetch the previously set access token
-$accessToken = $_SESSION['accessToken'];
-
-// prepare request and headers
+// prepare header
 $headerData = [
-    'Authorization' => "OAuth $accessToken"
+    'Authorization' => GeneralConstants::HEADER_AUTHORIZATION_TYPE. ' '. $_SESSION['accessToken']
 ];
 
 $apiCaller = new ApiCaller($_SESSION['instanceUrl']. $config['accountUrl']);
