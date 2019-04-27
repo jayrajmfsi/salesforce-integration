@@ -7,5 +7,10 @@
 		"psr-4": {
 			"SalesForce\\": "src/SalesForce"
 		}
-	}
+	},
+    "scripts": {
+      "post-create-project-cmd" : [
+        "sudo chmod -R 777 app/logs/"
+      ]
+    }
 }
